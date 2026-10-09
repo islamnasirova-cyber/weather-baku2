@@ -6,12 +6,11 @@ on:
     - cron: "0 9 * * *"    # 13:00 по Баку
     - cron: "0 12 * * *"   # 16:00 по Баку
     - cron: "0 15 * * *"   # 19:00 по Баку
-  workflow_dispatch:        # кнопка ручного запуска для проверки
+  workflow_dispatch:        # кнопка ручного запуска
 
 permissions:
   contents: write
 
-# не запускать два сбора одновременно
 concurrency:
   group: weather-scraper
   cancel-in-progress: false
@@ -26,27 +25,19 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
-        run: |
-          pip install playwright schedule
-          playwright install --with-deps chromium
-
-      - name: Run scraper
-        run: python weather_scraper.py --now
-
-      - name: Show files
-        run: ls -la
+      - name: Run script
+        env:
+          ACCUWEATHER_API_KEY: ${{ secrets.ACCUWEATHER_API_KEY }}
+        run: python weather_scraper.py
 
       - name: Save results
         run: |
           git config user.name "weather-bot"
           git config user.email "bot@users.noreply.github.com"
 
-          for f in weather_baku.csv debug_page.txt; do
-            if [ -f "$f" ]; then
-              git add "$f"
-            fi
-          done
+          if [ -f weather_baku.csv ]; then
+            git add weather_baku.csv
+          fi
 
           if git diff --cached --quiet; then
             echo "Нет новых данных для сохранения"
