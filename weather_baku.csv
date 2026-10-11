@@ -1,3 +1,4 @@
 ﻿collected_at,source,observation_time,temperature_c,feels_like_c,humidity_pct,precipitation_mm,wind_kmh,description
 2026-10-10 23:11:44,Open-Meteo,2026-10-10T23:00,17.4,17.0,80,0.0,12.1,Ясно
 2026-10-11 19:13:33,Open-Meteo,2026-10-11T19:00,19.4,20.7,80,0.0,5.6,Ясно
+2026-10-11 21:34:29,Open-Meteo,2026-10-11T21:30,18.4,19.6,84,0.0,4.7,Пасмурно
